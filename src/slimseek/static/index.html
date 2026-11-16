@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="SlimSeek 轻量级 RAG 知识检索系统">
+  <title>SlimSeek · 轻索</title>
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="SlimSeek 首页">
+      <span class="brand-mark">S</span>
+      <span><strong>SlimSeek</strong><small>轻索 · 知识检索</small></span>
+    </a>
+    <div id="provider-status" class="provider-status"><span class="status-dot"></span>正在连接</div>
+  </header>
+
+  <main class="workspace">
+    <aside class="sidebar">
+      <section class="panel upload-panel">
+        <div class="section-heading">
+          <div><p class="eyebrow">LIBRARY</p><h2>知识库</h2></div>
+          <span id="document-count" class="count-badge">0</span>
+        </div>
+        <div id="drop-zone" class="drop-zone" tabindex="0" role="button" aria-label="选择文档">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m0 0L7 9m5-5 5 5M5 15v4h14v-4"/></svg>
+          <strong>拖入文档，或点击选择</strong>
+          <span>支持 PDF、TXT、Markdown，最大 <span id="max-file-size">20</span> MB</span>
+        </div>
+        <input id="file-input" type="file" accept=".pdf,.txt,.md,.markdown" hidden>
+        <div id="selected-file" class="selected-file" hidden></div>
+        <button id="upload-button" class="button primary full" type="button" disabled>导入文档</button>
+        <p id="upload-message" class="inline-message" role="status"></p>
+      </section>
+
+      <section class="documents-section">
+        <h3>已导入文档</h3>
+        <div id="document-list" class="document-list"></div>
+      </section>
+    </aside>
+
+    <section class="main-panel">
+      <div class="hero">
+        <p class="eyebrow">ASK YOUR KNOWLEDGE</p>
+        <h1>从自己的文档里，<br><span>找到可信的答案。</span></h1>
+        <p>检索相关内容，由模型依据原文回答，并为每个答案保留来源。</p>
+      </div>
+
+      <form id="query-form" class="query-box">
+        <label for="question">向知识库提问</label>
+        <textarea id="question" rows="4" maxlength="4000" placeholder="例如：这个项目支持哪些文档格式？" required></textarea>
+        <div class="query-actions">
+          <label class="top-k-label">检索片段
+            <input id="top-k" type="number" min="1" max="20" value="5" aria-label="检索片段数量">
+          </label>
+          <button id="query-button" class="button primary" type="submit">
+            <span>检索并回答</span><span aria-hidden="true">→</span>
+          </button>
+        </div>
+      </form>
+
+      <p id="query-message" class="inline-message" role="status"></p>
+      <section id="answer-section" class="answer-section" hidden>
+        <div class="section-heading"><h2>回答</h2><span class="answer-label">BASED ON YOUR DOCUMENTS</span></div>
+        <div id="answer" class="answer"></div>
+        <div id="sources" class="sources"></div>
+      </section>
+
+      <div id="welcome" class="welcome-card">
+        <div><span class="step-number">01</span><strong>导入文档</strong><p>建立本地持久化向量索引</p></div>
+        <div><span class="step-number">02</span><strong>提出问题</strong><p>检索最相关的知识片段</p></div>
+        <div><span class="step-number">03</span><strong>核对来源</strong><p>结合原文验证每个答案</p></div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
